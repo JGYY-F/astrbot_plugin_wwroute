@@ -75,9 +75,10 @@ class WWRouteMenu(Star):
                 
         return ""
 
-    @filter.command("ww路线", alias=['路线菜单', '路线图', '路线帮助'])
+    @filter.permission_type(filter.PermissionType.ADMIN)
+    @filter.command("ww路线")
     async def show_route_menu(self, event: AstrMessageEvent):
-        """显示所有可用的路线图片名称"""
+        """显示所有可用的路线图片名称（仅管理员可用）"""
         image_files = self._get_image_files()
         
         if not image_files:
