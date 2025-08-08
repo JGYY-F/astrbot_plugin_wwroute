@@ -83,19 +83,19 @@ class WWRouteMenu(Star):
         if not image_files:
             yield event.plain_result(
                 "❌ menu文件夹中没有找到任何图片文件！\n"
-                f"�� 请将路线图片放入以下目录：\n{self.menu_dir}\n"
-                "�� 支持的图片格式：jpg, jpeg, png, gif, bmp, webp"
+                f"请将路线图片放入以下目录：\n{self.menu_dir}\n"
+                "支持的图片格式：jpg, jpeg, png, gif, bmp, webp"
             )
             return
 
         # 构建图片列表消息
-        menu_text = "��️ 可用的ww路线图片：\n\n"
+        menu_text = "可用的ww路线图片：\n\n"
         
         for i, (display_name, _, _) in enumerate(image_files, 1):
             menu_text += f"{i:2d}. {display_name}\n"
         
-        menu_text += f"�� 使用方法：直接发送图片名称即可获取对应路线图"
-        menu_text += f"�� 共找到 {len(image_files)} 张路线图片"
+        menu_text += f"使用方法：直接发送图片名称即可获取对应路线图"
+        menu_text += f"共找到 {len(image_files)} 张路线图片"
         
         yield event.plain_result(menu_text)
 
@@ -126,7 +126,7 @@ class WWRouteMenu(Star):
                     
                     # 构建回复消息
                     chain = [
-                        Plain(f"��️ 路线图：{display_name}\n"),
+                        Plain(f"路线图：{display_name}\n"),
                         Image.fromFileSystem(image_path)
                     ]
                     
@@ -158,7 +158,7 @@ class WWRouteMenu(Star):
         image_files = self._get_image_files()
         
         if not image_files:
-            yield event.plain_result("�� 暂无路线图片数据")
+            yield event.plain_result("暂无路线图片数据")
             return
             
         # 按扩展名统计
@@ -176,15 +176,15 @@ class WWRouteMenu(Star):
                 pass
         
         # 构建统计信息
-        stats_text = "�� ww路线图片统计："
-        stats_text += f"�� 总数量：{len(image_files)} 张\n"
-        stats_text += f"�� 总大小：{total_size / 1024 / 1024:.2f} MB\n\n"
+        stats_text = "ww路线图片统计："
+        stats_text += f"总数量：{len(image_files)} 张\n"
+        stats_text += f"总大小：{total_size / 1024 / 1024:.2f} MB\n\n"
         
-        stats_text += "�� 格式分布："
+        stats_text += "格式分布："
         for ext, count in sorted(ext_count.items()):
             stats_text += f"  {ext}: {count} 张\n"
             
-        stats_text += f"�� 存储位置：{self.menu_dir}"
+        stats_text += f"存储位置：{self.menu_dir}"
         
         yield event.plain_result(stats_text)
 
