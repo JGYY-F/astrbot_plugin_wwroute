@@ -49,9 +49,17 @@ class custommenu(Star):
     async def send_image(self, event: AstrMessageEvent):
         msg = event.message.extract_plain_text().strip()
         
+        # 如果消息为空，直接返回
+        if not msg:
+            return
+        
         # 检查文件夹是否存在
         if not os.path.exists(self.menu_dir) or not os.path.isdir(self.menu_dir):
+            yield event.plain_result("menu文件夹不存在")
             return
+        
+        # 标记是否找到图片
+        found = False
         
         # 遍历所有支持的图片扩展名
         for ext in self.image_extensions:
@@ -60,7 +68,13 @@ class custommenu(Star):
                 try:
                     image = Image.fromFileSystem(image_path)
                     yield event.chain_result([image])
-                    return
+                    found = True
+                    break  # 找到图片后立即退出循环
                 except Exception as e:
                     logger.error(f"加载图片失败: {image_path}, 错误信息: {e}")
+                    yield event.plain_result(f"加载图片失败: {str(e)}")
                     return
+        
+        # 如果没有找到对应的图片，给出提示
+        if not found:
+            yield event.plain_result(f"未找到名为 '{msg}' 的图片")
