@@ -66,13 +66,7 @@ class WWRouteMenu(Star):
         # 精确匹配
         for display_name, file_path, filename in image_files:
             if display_name.lower() == name.lower():
-                return file_path
-        
-        # 模糊匹配（包含关系）
-        for display_name, file_path, filename in image_files:
-            if name.lower() in display_name.lower() or display_name.lower() in name.lower():
-                return file_path
-                
+                return file_path      
         return ""
 
     @filter.permission_type(filter.PermissionType.ADMIN)
